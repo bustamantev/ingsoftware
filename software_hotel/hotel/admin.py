@@ -19,7 +19,7 @@ class Metodo_pagoAdmin(admin.ModelAdmin):
 
 @admin.register(Tipo_habitacion)
 class Tipo_habitacionAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'equipo', 'servicio',)
+    list_display = ('nombre',)
 
 @admin.register(Habitacion)
 class HabitacionAdmin(admin.ModelAdmin):

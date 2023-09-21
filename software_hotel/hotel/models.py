@@ -39,12 +39,11 @@ class Metodo_pago(models.Model):
 class Tipo_habitacion(models.Model):
     tipo_habitacion_id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
-    equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE, null=True, blank=True)
-    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, null=True, blank=True)
-
+    equipos = models.ManyToManyField(Equipo)
+    servicios = models.ManyToManyField(Servicio)
     def __str__(self):
         return self.nombre
-
+    
 
 class Habitacion(models.Model):
     habitacion_id = models.AutoField(primary_key=True)
