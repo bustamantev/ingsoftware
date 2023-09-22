@@ -49,6 +49,7 @@ class Habitacion(models.Model):
     habitacion_id = models.AutoField(primary_key=True)
     disponibilidad = models.BooleanField(null=False, blank=False)
     numero_habitacion = models.IntegerField(null=False, blank=False)
+    capacidad = models.IntegerField(null=False, blank=False)
     metros_cuadrados = models.IntegerField(null=False, blank=False)
     precio = models.IntegerField(null=False, blank=False)
     tipo_habitacion = models.ForeignKey(
