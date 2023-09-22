@@ -1,52 +1,38 @@
 body {
   background-image: url('../img/fondo.png');
-  /* Reemplaza 'ruta-de-tu-imagen.jpg' con la URL de tu imagen de fondo */
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .bg-navbar-custom {
   background-color: rgba(81, 81, 81, 0.405);
-}
-
-.color-text-custom {
-  color: rgb(210, 210, 210);
 }
 
 .nav-link {
   color: rgb(210, 210, 210);
 }
 
-#welcome-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.bg-custom-text {
-  font-size: 64px;
-  color: #fff;
-  -webkit-text-stroke: 2px black;
-  font-weight: bold;
-}
-
-#logo{
+#logo {
   margin-right: 3vw;
 }
-#catalogo{
+
+#catalogo {
   margin-right: 3vw;
 }
-#idioma{
+
+#idioma {
   margin-left: 3vw;
   margin-right: 3vw;
 }
-#iniciar-session{
-  margin-left: 3vw;
-}
-#registrarse{
-  margin-right: 3vw;
-}
-#reservar{
+
+#iniciar-session {
   margin-left: 3vw;
 }
 
+#registrarse {
+  margin-right: 3vw;
+}
+
+#reservar {
+  margin-left: 3vw;
+}
