@@ -1,0 +1,13 @@
+#welcome-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.bg-custom-text {
+    font-size: 64px;
+    color: #fff;
+    -webkit-text-stroke: 2px black;
+    font-weight: bold;
+}

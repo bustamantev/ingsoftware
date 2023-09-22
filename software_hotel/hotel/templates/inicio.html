@@ -1,0 +1,12 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Inicio{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
+{% block content %}
+<div class="container-fluid" id="welcome-text">
+    <div class="text-center">
+        <h1 class="bg-custom-text">Bienvenido a Mandarin Oriental</h1>
+        <h3 class="bg-custom-text">El mejor hotel que podras visitar.</h3>
+    </div>
+</div>
+{% endblock content %}

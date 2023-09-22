@@ -1,10 +1,10 @@
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from models import Cliente, Administrador
+from .models import Cliente, Administrador
 
-'''
+
 def cliente_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         if request.user.is_authenticated and isinstance(request.user, Cliente):
@@ -22,11 +22,13 @@ def administrador_required(role):
                 raise Http404("Página no encontrada")
         return _wrapped_view
     return decorator
-'''
+
+
+def inicio(request):
+    return render(request,"inicio.html")
 
 
 
-'''
 #EXAMPLES
 @login_required
 @cliente_required
@@ -45,4 +47,3 @@ def vista_administrador_admin(request):
 def vista_administrador_supervisor(request):
     # Lógica para la vista de administrador con rol 'supervisor'
     pass
-'''
