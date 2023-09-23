@@ -126,4 +126,4 @@ class Reserva(models.Model):
     habitacion = models.ForeignKey(Habitacion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.reserva_id
+        return f"{self.reserva_id}"
