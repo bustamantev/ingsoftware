@@ -1,7 +1,38 @@
 {% extends "core.html" %}
 {% load static %}
-{% block title %}Resultados{% endblock title %}
-{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_reserva.css' %}" />{% endblock link %}
+{% block title %}
+Resultados{% endblock title %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'hotel/css/style_resultados.css' %}" />
+{% endblock link %}
 {% block content %}
-
+<div class="container-fluid text-center bg-body bg-opacity-75 my-5 py-3 pb-5">
+    <div>
+        <h1 class="mb-4">Lista de habitaciones</h1>
+        <table class="container-fluid">
+            <thead>
+                <tr>
+                    <th>NÚMERO HABITACIÓN</th>
+                    <th>CAPACIDAD</th>
+                    <th>METROS CUADRADOS</th>
+                    <th>TIPO HABITACION</th>
+                    <th>PREICO/NOCHE (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for habitacion in habitaciones %}
+                <tr>
+                    <td>{{ habitacion.numero_habitacion }}</td>
+                    <td>{{ habitacion.capacidad }}</td>
+                    <td>{{ habitacion.metros_cuadrados }}</td>
+                    <td>{{ habitacion.tipo_habitacion }}</td>
+                    <td>${{ habitacion.precio }}</td>
+                    <td><button type="submit" value={{ habitacion }}
+                            class="btn btn-primary-sm bg-body-secondary">Seleccionar</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}

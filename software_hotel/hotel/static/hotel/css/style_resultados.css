@@ -1,13 +1,31 @@
-#box {
+#title {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-.bg-custom-text {
     font-size: 64px;
     color: #fff;
     -webkit-text-stroke: 2px black;
     font-weight: bold;
+}
+
+
+.bg-custom-text-title {
+    font-size: 64px;
+    color: #fff;
+    -webkit-text-stroke: 2px black;
+    font-weight: bold;
+}
+
+.custom-text-head{
+    color: #fff;
+    background-color: #fff;
+}
+
+.custom-text-body{
+    color: #fff;
+}
+
+.custom-bg-table{
+    background-color: #fff;
 }
