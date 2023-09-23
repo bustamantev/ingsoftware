@@ -20,15 +20,31 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="fecha_entrada">Fecha de entrada</label>
-                    <input type="date" id="fecha_entrada" name="fecha_entrada" value="{{ fecha_entrada }}" class="form-control">
+                    <input type="date" id="fecha_entrada" name="fecha_entrada" value="{{ fecha_entrada }}" class="form-control ">
                 </div>
                 <div class="form-group">
                     <label for="fecha_salida">Fecha de salida</label>
                     <input type="date" id="fecha_salida" name="fecha_salida" value="{{ fecha_salida }}" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="numero_huespedes">Número de huéspedes (MAXIMO 4)</label>
-                    <input type="number" id="numero_huespedes" name="numero_huespedes" value="{{ numero_huespedes }}" class="form-control">
+                    <label for="numero_huespedes">Número de huéspedes</label>
+                    <select class="form-select form-select-sm" id="numero_huespedes" name="numero_huespedes">
+                        <option selected value=0>Selecione numero de huespedes</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_habitacion">tipo de habitacion</label>
+                    <select class="form-select form-select-sm" id="tipo_habitacion" name="tipo_habitacion">
+                        <option selected value=0>Selecione tipo de habitacion</option>
+                        <option value=1>Suite Premier con terraza</option>
+                        <option value=2>Suite Premier</option>
+                        <option value=3>Suite Executive con terraza</option>
+                        <option value=4>Suite Executive</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
             </form>
