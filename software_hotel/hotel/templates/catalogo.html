@@ -1,0 +1,51 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}
+Catalogo
+{% endblock title %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'hotel/css/style_catalogo.css' %}" />
+{% endblock link %}
+{% block content %}
+<div>
+    <h1 class="bg-custom-text-title text-center">Catalogo Habitaciones</h1>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col-8">
+            {% for tipo_habitacion in tipo_habitacion %}
+            <div class="card bg-body bg-opacity-50 my-3 pt-3">
+                <h2 class="text-center">{{ tipo_habitacion.nombre }}</h2>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col text-center">
+                            <br>
+                            <h2>Equipo</h2>
+                            <ul class="list-group">
+                                {% for equipo in tipo_habitacion.equipos %}
+                                <li class="list-group-item opacity-75">{{ equipo.descripcion }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col text-center">
+                            <br>
+                            <h2>Servicios</h2>
+                            <ul class="list-group">
+                                {% for servicio in tipo_habitacion.servicios %}
+                                <li class="list-group-item opacity-75">{{ servicio.descripcion }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
