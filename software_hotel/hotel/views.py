@@ -80,11 +80,6 @@ def resultados(request):
                 for i in reservas_existen:
                     habitaciones_disponibles = habitaciones_disponibles.exclude(
                         numero_habitacion__exact=i.habitacion.numero_habitacion)
-        print('fecha_actual:',fecha_actual)
-        print('fecha_entrada:',fecha_entrada)
-        print('fecha_salida:',fecha_salida)
-        print('numero_huespedes:',numero_huespedes)
-        print('tipo_habitacion:',tipo_habitacion)
         return render(request, "resultados.html", {'habitaciones': habitaciones_disponibles})
 
 
