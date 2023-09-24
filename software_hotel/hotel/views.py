@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion
-from datetime import timedelta, datetime
+from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion, Metodo_pago
+from datetime import timedelta, datetime, date
 
 
 def cliente_required(view_func):
@@ -39,12 +39,13 @@ def resultados(request):
     fecha_entrada = None
     fecha_salida = None
     numero_huespedes = None
-    tipo_habitacion = None
+
     if request.method == "POST":
+
         fecha_entrada = request.POST.get("fecha_entrada")
         fecha_salida = request.POST.get("fecha_salida")
         numero_huespedes = int(request.POST.get("numero_huespedes"))
-        tipo_habitacion = int(request.POST.get("tipo_habitacion"))
+
         if fecha_entrada != "":
             fecha_entrada = datetime.strptime(fecha_entrada, "%Y-%m-%d").date()
             if fecha_entrada < fecha_actual:
@@ -56,32 +57,110 @@ def resultados(request):
                     fecha_salida, "%Y-%m-%d").date()
                 if fecha_salida <= fecha_entrada:
                     return render(request, "busqueda.html", {
-                        "error_fecha_salida": "La fecha de salida no puede ser anterior a la fecha de entrada",
+                        "error_fecha_salida": "La fecha de salida no puede ser anterior o igual a la fecha de entrada",
                     })
-            if fecha_salida == "":
+            else:
                 fecha_salida = fecha_entrada + timedelta(days=1)
         else:
-            fecha_salida = ""
+            return render(request, "busqueda.html", {
+                "error_fecha_entrada": "debe ingresar una fecha de entrada",
+            })
+        if numero_huespedes == 0:
+            return render(request, "busqueda.html", {
+                "error_numero_huesped": "debe ingresar cantidad de personas que se hospedaran",
+            })
+
     if request.POST:
         habitaciones_disponibles = Habitacion.objects.all()
-        if numero_huespedes != 0:
-            habitaciones_disponibles = habitaciones_disponibles.filter(
-                capacidad__exact=numero_huespedes)
-        if tipo_habitacion != 0:
-            habitaciones_disponibles = habitaciones_disponibles.filter(
-                tipo_habitacion__exact=tipo_habitacion)
-        if fecha_entrada != "" and fecha_salida != "":
-            reservas_existen = Reserva.objects.all().filter(
-                fecha_entrada__lte=fecha_salida, fecha_salida__gte=fecha_entrada)
-            if reservas_existen:
-                for i in reservas_existen:
-                    habitaciones_disponibles = habitaciones_disponibles.exclude(
-                        numero_habitacion__exact=i.habitacion.numero_habitacion)
-        return render(request, "resultados.html", {'habitaciones': habitaciones_disponibles})
+        habitaciones_disponibles = habitaciones_disponibles.filter(
+            capacidad__gte=numero_huespedes)
+        reservas_existen = Reserva.objects.all().filter(
+            fecha_entrada__lte=fecha_salida, fecha_salida__gte=fecha_entrada)
+        if reservas_existen:
+            for i in reservas_existen:
+                habitaciones_disponibles = habitaciones_disponibles.exclude(
+                    numero_habitacion__exact=i.habitacion.numero_habitacion)
+        fecha_entrada = datetime.strftime(fecha_entrada, "%d/%m/%Y")
+        fecha_salida = datetime.strftime(fecha_salida, "%d/%m/%Y")
+        data = {'habitaciones': habitaciones_disponibles,
+                'fecha_entrada': fecha_entrada,
+                'fecha_salida': fecha_salida,
+                'numero_huespedes': numero_huespedes}
+        return render(request, "resultados.html", data)
 
 
-def reserva(request):
-    return render(request, "resultados.html")
+def detalle(request):
+    habitacion_id = request.POST.get("habitacion")
+    fecha_entrada = request.POST.get("fecha_entrada")
+    fecha_salida = request.POST.get("fecha_salida")
+    numero_huespedes = request.POST.get("numero_huespedes")
+
+    habitacion = Habitacion.objects.get(habitacion_id=habitacion_id)
+    servicios = list(
+        habitacion.tipo_habitacion.servicios.all().values('descripcion'))
+    equipos = list(
+        habitacion.tipo_habitacion.equipos.all().values('descripcion'))
+
+    date_in = datetime.strptime(fecha_entrada, '%d/%m/%Y').date()
+    date_out = datetime.strptime(fecha_salida, '%d/%m/%Y').date()
+    delta_date = (date_out - date_in).days
+    precio_final = delta_date * habitacion.precio
+    data = {'fecha_entrada': fecha_entrada,
+            'fecha_salida': fecha_salida,
+            'numero_huespedes': numero_huespedes,
+            'habitacion': habitacion,
+            'servicios': servicios,
+            'equipos': equipos,
+            'dias_hospedaje': delta_date,
+            'precio_final': precio_final}
+    return render(request, "detalle.html", data)
+
+
+def metodo_pago(request):
+    habitacion_id = request.POST.get("habitacion_id")
+    fecha_entrada = request.POST.get("fecha_entrada")
+    fecha_salida = request.POST.get("fecha_salida")
+    numero_huespedes = request.POST.get("numero_huespedes")
+    precio_final = request.POST.get("precio_final")
+    data = {'habitacion_id':habitacion_id,
+            'fecha_entrada':fecha_entrada,
+            'fecha_salida':fecha_salida,
+            'numero_huespedes':numero_huespedes,
+            'precio_final':precio_final
+            }
+    return render(request, "metodo_pago.html",data)
+
+
+def realizado(request):
+    habitacion_id = request.POST.get("habitacion_id")
+    fecha_entrada = request.POST.get("fecha_entrada")
+    fecha_salida = request.POST.get("fecha_salida")
+    numero_huespedes = request.POST.get("numero_huespedes")
+    precio_final = request.POST.get("precio_final")
+    if request.method == "POST":
+        metodo_pago = int(request.POST.get("metodo_pago"))
+        if metodo_pago != 0:
+            fecha_entrada = datetime.strptime(fecha_entrada, '%d/%m/%Y').date()
+            fecha_salida = datetime.strptime(fecha_salida, '%d/%m/%Y').date()
+            numero_huespedes = int(numero_huespedes)
+            precio_final = int(precio_final)
+            metodo_pago = Metodo_pago.objects.get(pago_id=metodo_pago)
+            habitacion = Habitacion.objects.get(habitacion_id=habitacion_id)
+            
+            reserva = Reserva(
+                fecha_entrada = fecha_entrada,
+                fecha_salida = fecha_salida,
+                cantidad_personas = numero_huespedes,
+                precio_final = precio_final,
+                pago = metodo_pago,
+                habitacion = habitacion
+            )
+            reserva.save()
+            return render(request, "realizado.html")
+        else:
+            return render(request, "metodo_pago.html", {
+                "error_metodo_pago": "Debe ingresar un metodo de pago antes de continuar",
+            })
 
 
 def catalogo(request):

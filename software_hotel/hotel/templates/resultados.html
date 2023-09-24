@@ -18,23 +18,26 @@
                         <th>METROS CUADRADOS</th>
                         <th>TIPO HABITACION</th>
                         <th>PREICO/NOCHE (USD)</th>
-                        <th>DIRECCION</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for habitacion in habitaciones %}
-                        <tr>
-                            <td>{{ habitacion.numero_habitacion }}</td>
-                            <td>{{ habitacion.capacidad }}</td>
-                            <td>{{ habitacion.metros_cuadrados }}</td>
-                            <td>{{ habitacion.tipo_habitacion }}</td>
-                            <td>${{ habitacion.precio }}</td>
-                            <td>${{ habitacion.hotel.direccion }}</td>
-                            <td>
-                                <button type="submit" value={{ habitacion }} class="btn btn-primary-sm bg-body-secondary">Seleccionar
-                                </button>
-                            </td>
-                        </tr>
+                        <form action="{% url 'detalle' %}" method="POST">
+                            {% csrf_token %}
+                            <tr>
+                                <td>{{ habitacion.numero_habitacion }}</td>
+                                <td>{{ habitacion.capacidad }}</td>
+                                <td>{{ habitacion.metros_cuadrados }}</td>
+                                <td>{{ habitacion.tipo_habitacion }}</td>
+                                <td>${{ habitacion.precio }}</td>
+                                <input  type="hidden" name="fecha_entrada" id="fecha_entrada" value="{{ fecha_entrada }}">
+                                <input  type="hidden" name="fecha_salida" id="fecha_salida" value="{{ fecha_salida }}">
+                                <input  type="hidden" name="numero_huespedes" id="numero_huespedes" value="{{ numero_huespedes }}">
+                                <td>
+                                    <button  type="submit" name="habitacion" id="habitacion" value={{ habitacion.habitacion_id }} class="btn btn-primary-sm bg-body-secondary">Seleccionar</button>
+                                </td>
+                            </tr>
+                        </form>
                     {% endfor %}
                 </tbody>
             </table>

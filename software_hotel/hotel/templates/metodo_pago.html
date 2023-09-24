@@ -1,0 +1,44 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Metodo de pago{% endblock title %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'hotel/css/style_metodo_pago.css' %}" />{% endblock link %}
+{% block content %}
+{% if error_metodo_pago %}
+<div class="alert alert-danger text-center">
+    {{ error_metodo_pago }}
+</div>
+{% endif %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <form action="{% url 'realizado' %}" method="post">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1>Medio de pago</h1>
+                </div>
+                <div class="card-body">
+
+                    <label for="metodo_pago" class="text-center">Metodo de pago</label>
+                    <select class="form-select form-select-sm" id="metodo_pago" name="metodo_pago">
+                        <option selected value=0>Selecione un metodo de pago</option>
+                        <option value=1>Visa/Debito</option>
+                        <option value=2>Credito</option>
+                        <option value=3>Transferencia Bancaria</option>
+                    </select>
+                </div>
+                <div class="card-footer">
+                    <input type="hidden" name="habitacion_id" id="habitacion_id" value="{{habitacion_id}}">
+                    <input type="hidden" name="fecha_entrada" id="fecha_entrada" value="{{fecha_entrada}}">
+                    <input type="hidden" name="fecha_salida" id="fecha_salida" value="{{fecha_salida}}">
+                    <input type="hidden" name="numero_huespedes" id="numero_huespedes" value="{{numero_huespedes}}">
+                    <input type="hidden" name="precio_final" id="precio_final" value="{{precio_final}}">
+                    <button type="submit" class="btn btn-primary">Pagar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock content %}
