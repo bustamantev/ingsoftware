@@ -7,11 +7,11 @@
     <h1 class=" bg-custom-text">Búsqueda de habitaciones</h1>
 </div>
 
-    {% if error_fecha_entrada  or error_fecha_salida or error_cantidad_huesped %}
+    {% if error_fecha_entrada  or error_fecha_salida or error_numero_huesped %}
         <div class="alert alert-danger text-center">
             {{ error_fecha_entrada }}
             {{ error_fecha_salida }}
-            {{ error_cantidad_huesped }}
+            {{ error_numero_huesped }}
         </div>
     {% endif %}
     <div class="container custom-center bg-custom-text2" >
@@ -34,16 +34,6 @@
                         <option value=2>2</option>
                         <option value=3>3</option>
                         <option value=4>4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="tipo_habitacion">tipo de habitacion</label>
-                    <select class="form-select form-select-sm" id="tipo_habitacion" name="tipo_habitacion">
-                        <option selected value=0>Selecione tipo de habitacion</option>
-                        <option value=1>Suite Premier con terraza</option>
-                        <option value=2>Suite Premier</option>
-                        <option value=3>Suite Executive con terraza</option>
-                        <option value=4>Suite Executive</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-custom">Buscar</button>

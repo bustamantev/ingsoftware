@@ -1,0 +1,29 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Reserva realizada{% endblock title %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'hotel/css/style_realizado.css' %}" />{% endblock link %}
+{% block content %}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1 class="bg-custom-text">Reserva Realizada Exitosamente</h1>
+            </div>
+            <div class="card-body">
+                <h3 class="bg-custom-text">Se le enviara un correo electronico con el comprobante de reserva</h3>
+                <h3 class="bg-custom-text">Este tendra el codigo QR para poder realizar el Check-In al momento de su
+                    llegada</h3>
+                <h3 class="bg-custom-text">¡ Muchas gracias por su eleccion, lo esperamos pronto !</h3>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'inicio' %}">Click aqui para volver al inicio.</a>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+{% endblock content %}

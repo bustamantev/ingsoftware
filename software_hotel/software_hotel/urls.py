@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from hotel.views import inicio, busqueda, resultados, catalogo
+from hotel.views import inicio, busqueda, resultados, catalogo, detalle, metodo_pago, realizado
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +24,8 @@ urlpatterns = [
     path('busqueda/', busqueda, name="busqueda"),
     path('resultados/', resultados, name="resultados"),
     path('catalogo/', catalogo, name="catalogo"),
+    path('detalle/', detalle, name="detalle"),
+    path('metodo_pago/', metodo_pago, name="metodo_pago"),
+    path('realizado/', realizado, name="realizado"),
 
 ]
