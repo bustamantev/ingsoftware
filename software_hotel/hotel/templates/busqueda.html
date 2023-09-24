@@ -1,0 +1,54 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Busqueda{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_busqueda.css' %}" />{% endblock link %}
+{% block content %}
+<div class="custom-center">
+    <h1 class=" bg-custom-text">Búsqueda de habitaciones</h1>
+</div>
+
+    {% if error_fecha_entrada  or error_fecha_salida or error_cantidad_huesped %}
+        <div class="alert alert-danger text-center">
+            {{ error_fecha_entrada }}
+            {{ error_fecha_salida }}
+            {{ error_cantidad_huesped }}
+        </div>
+    {% endif %}
+    <div class="container custom-center bg-custom-text2" >
+        <div class="text-center">
+            <form action="{% url 'resultados' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="fecha_entrada">Fecha de entrada</label>
+                    <input type="date" id="fecha_entrada" name="fecha_entrada" value="{{ fecha_entrada }}" class="form-control ">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_salida">Fecha de salida</label>
+                    <input type="date" id="fecha_salida" name="fecha_salida" value="{{ fecha_salida }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="numero_huespedes">Número de huéspedes</label>
+                    <select class="form-select form-select-sm" id="numero_huespedes" name="numero_huespedes">
+                        <option selected value=0>Selecione numero de huespedes</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_habitacion">tipo de habitacion</label>
+                    <select class="form-select form-select-sm" id="tipo_habitacion" name="tipo_habitacion">
+                        <option selected value=0>Selecione tipo de habitacion</option>
+                        <option value=1>Suite Premier con terraza</option>
+                        <option value=2>Suite Premier</option>
+                        <option value=3>Suite Executive con terraza</option>
+                        <option value=4>Suite Executive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-custom">Buscar</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

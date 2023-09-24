@@ -6,7 +6,6 @@ from django.utils import timezone
 class Equipo(models.Model):
     equipo_id = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=200, null=False, blank=False)
-
     def __str__(self):
         return self.descripcion
 
@@ -14,7 +13,6 @@ class Equipo(models.Model):
 class Servicio(models.Model):
     servicio_id = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=200, null=False, blank=False)
-
     def __str__(self):
         return self.descripcion
 
@@ -23,7 +21,6 @@ class Hotel(models.Model):
     hotel_id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200, null=False, blank=False)
     direccion = models.TextField(max_length=500, null=False, blank=False)
-
     def __str__(self):
         return self.nombre
 
@@ -31,7 +28,6 @@ class Hotel(models.Model):
 class Metodo_pago(models.Model):
     pago_id = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=100)
-
     def __str__(self):
         return self.descripcion
 
@@ -43,7 +39,7 @@ class Tipo_habitacion(models.Model):
     servicios = models.ManyToManyField(Servicio)
     def __str__(self):
         return self.nombre
-    
+
 
 class Habitacion(models.Model):
     habitacion_id = models.AutoField(primary_key=True)
@@ -55,7 +51,6 @@ class Habitacion(models.Model):
     tipo_habitacion = models.ForeignKey(
         Tipo_habitacion, on_delete=models.CASCADE)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-
     def __str__(self):
         return f'Habitación {self.numero_habitacion} en {self.hotel.nombre}'
 
@@ -124,6 +119,5 @@ class Reserva(models.Model):
         Cliente, on_delete=models.CASCADE, null=True, blank=True)
     pago = models.ForeignKey(Metodo_pago, on_delete=models.CASCADE)
     habitacion = models.ForeignKey(Habitacion, on_delete=models.CASCADE)
-
     def __str__(self):
-        return self.reserva_id
+        return f"{self.reserva_id}"
