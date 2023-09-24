@@ -4,7 +4,6 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion
 from datetime import timedelta, datetime
-from .forms import formularioReserva
 
 
 def cliente_required(view_func):
@@ -32,9 +31,7 @@ def inicio(request):
 
 
 def busqueda(request):
-    form = formularioReserva
-    data = {'form':form}
-    return render(request, "busqueda.html", data)
+    return render(request, "busqueda.html")
 
 
 def resultados(request):

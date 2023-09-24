@@ -18,6 +18,7 @@
                         <th>METROS CUADRADOS</th>
                         <th>TIPO HABITACION</th>
                         <th>PREICO/NOCHE (USD)</th>
+                        <th>DIRECCION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,7 @@
                             <td>{{ habitacion.metros_cuadrados }}</td>
                             <td>{{ habitacion.tipo_habitacion }}</td>
                             <td>${{ habitacion.precio }}</td>
+                            <td>${{ habitacion.hotel.direccion }}</td>
                             <td>
                                 <button type="submit" value={{ habitacion }} class="btn btn-primary-sm bg-body-secondary">Seleccionar
                                 </button>
