@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser, Group, Permission, User
 from django.utils import timezone
 
 
@@ -55,54 +55,30 @@ class Habitacion(models.Model):
         return f'Habitación {self.numero_habitacion} en {self.hotel.nombre}'
 
 
-class Administrador(AbstractUser):
+class Administrador(User):
     ROLES = (
         ('TI', 'TI'),
         ('Administrador de hotel', 'Administrador de hotel'),
         ('Administrador de reserva', 'Administrador de reserva'),
         ('Empleado', 'Empleado'),
     )
-    email = models.EmailField(unique=True)
+    correo = models.EmailField(unique=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
     apellido = models.CharField(max_length=50, null=False, blank=False)
     telefono = models.IntegerField(null=False, blank=False)
-    role = models.CharField(max_length=24, choices=ROLES,
+    rol = models.CharField(max_length=24, choices=ROLES,
                             default='Administrador de hotel')
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    USERNAME_FIELD = 'email'
-
-    groups = models.ManyToManyField(
-        Group,
-        related_name="administradores",
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name="administradores",
-    )
-
+    
     def __str__(self):
         return self.email
 
 
-class Cliente(AbstractUser):
-    email = models.EmailField(unique=True)
+class Cliente(User):
+    correo = models.EmailField(unique=True)
     nombre = models.CharField(max_length=50, null=False, blank=False)
     apellido = models.CharField(max_length=50, null=False, blank=False)
     telefono = models.IntegerField(null=False, blank=False)
     vip = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    USERNAME_FIELD = 'email'
-
-    groups = models.ManyToManyField(
-        Group,
-        related_name="clientes",
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name="clientes",
-    )
 
     def __str__(self):
         return self.email
@@ -121,3 +97,10 @@ class Reserva(models.Model):
     habitacion = models.ForeignKey(Habitacion, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.reserva_id}"
+
+class Reporte(models.Model):
+    reporte_id = models.AutoField(primary_key=True)
+    reporte = models.TextField(null=False, blank=False)
+    administrador = models.ForeignKey(Administrador, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.reporte_id
