@@ -1,0 +1,71 @@
+{% extends "core_adm.html" %}
+{% load static %}
+{% block title %}Registrar Administrador{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/registrarse_adm.css' %}" />{% endblock link %}
+{% block content %}
+
+{% if error_email or error_nombre or error_apellido or error_telefono or error_rol or error_password %}
+<div class="alert alert-danger text-center">
+    {{ error_email }}
+    {{ error_nombre }}
+    {{ error_apellido }}
+    {{ error_telefono }}
+    {{ error_rol }}
+    {{ error_password }}
+</div>
+{% endif %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <form action="{% url 'registrarse_adm_done' %}" method="post">
+            {% csrf_token %}
+            <div class="card mt-3">
+                <div class="card-header text-center">
+                    <h1>Registrar Administrador</h1>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo electronico" value="{{ correo }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" value="{{ nombre }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Apellido" value="{{ apellido }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Telefono" value="{{ telefono }}">
+                            </div>
+                            <div class="mb-3">
+                                <select name="rol" id="rol" class="form-select">
+                                    <option selected>Seleccione un Rol</option>
+                                    <option value="TI">TI</option>
+                                    <option value="Administrador de hotel">Administrador de hotel</option>
+                                    <option value="Administrador de reserva">Administrador de reserva</option>
+                                    <option value="Empleado">Empleado</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" id="password2" name="password2" class="form-control" placeholder="Repita contraseña">
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary my-1" type='submit'>Crear usuario administrador</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+
+{% endblock content %}

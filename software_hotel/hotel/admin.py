@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Equipo, Servicio, Hotel, Metodo_pago, Tipo_habitacion, Habitacion, Administrador, Cliente, Reserva
+from .models import Equipo, Servicio, Hotel, Metodo_pago, Tipo_habitacion, Habitacion, Administrador, Cliente, Reserva, Reporte
 
 @admin.register(Equipo)
 class EquipoAdmin(admin.ModelAdmin):
@@ -30,15 +30,21 @@ class HabitacionAdmin(admin.ModelAdmin):
 
 @admin.register(Administrador)
 class AdministradorAdmin(admin.ModelAdmin):
-    list_display = ('email', 'nombre', 'apellido', 'role')
+    list_display = ('correo', 'nombre', 'apellido', 'rol')
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('email', 'nombre', 'apellido', 'telefono', 'vip')
+    list_display = ('correo', 'nombre', 'apellido', 'telefono', 'vip')
 
 @admin.register(Reserva)
 class ReservaAdmin(admin.ModelAdmin):
     list_display = (
         'fecha_entrada', 'fecha_salida', 'cantidad_personas', 'precio_final',
         'fecha_hora_pago', 'cliente', 'pago', 'habitacion',
+    )
+
+@admin.register(Reporte)
+class ReporteAdmin(admin.ModelAdmin):
+    list_display = (
+        'reporte','administrador'
     )

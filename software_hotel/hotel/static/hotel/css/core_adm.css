@@ -1,0 +1,38 @@
+body {
+    background-image: url('../img/fondo2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bg-navbar-custom {
+    background-color: rgba(81, 81, 81, 0.405);
+}
+
+.nav-link {
+    color: rgb(210, 210, 210);
+}
+
+#logo {
+    margin-right: 3vw;
+}
+
+#catalogo {
+    margin-right: 3vw;
+}
+
+#idioma {
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+#iniciar-session {
+    margin-left: 3vw;
+}
+
+#registrarse {
+    margin-right: 3vw;
+}
+
+#reservar {
+    margin-left: 3vw;
+}

@@ -7,7 +7,7 @@
     <h1 class=" bg-custom-text">Búsqueda de habitaciones</h1>
 </div>
 
-    {% if error_fecha_entrada  or error_fecha_salida or error_numero_huesped %}
+    {% if error_fecha_entrada or error_fecha_salida or error_numero_huesped %}
         <div class="alert alert-danger text-center">
             {{ error_fecha_entrada }}
             {{ error_fecha_salida }}
@@ -16,7 +16,7 @@
     {% endif %}
     <div class="container custom-center bg-custom-text2" >
         <div class="text-center">
-            <form action="{% url 'resultados' %}" method="POST">
+            <form action="{% url 'resultados' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="fecha_entrada">Fecha de entrada</label>
