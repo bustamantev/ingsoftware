@@ -2,8 +2,10 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion, Metodo_pago
-from datetime import timedelta, datetime, date
+from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion, Metodo_pago, Reporte
+from datetime import timedelta, datetime
+from django.contrib.auth import login, logout, authenticate
+
 
 
 def cliente_required(view_func):
@@ -173,6 +175,152 @@ def catalogo(request):
                     'equipos': equipos,
                     'servicios': servicios})
     return render(request, "catalogo.html", {'tipo_habitacion': data})
+
+
+def inicio_sesion_adm(request):
+    return render(request,'inicio_sesion_adm.html')
+
+def inicio_sesion_adm_done(request):
+    if request.method == 'POST':
+        username = request.POST.get('correo')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        data = {'correo': username,}
+        if user is not None:
+            login(request, user)
+        else:
+            data.update({'error':'Usuario y/o contraseña invalidos.'})
+            return render(request, 'inicio_sesion_adm.html', data)
+        return redirect('menu_adm')
+
+@login_required
+def cerrar_sesion_adm(request):
+    logout(request)
+    return redirect('inicio_sesion_adm')
+
+def registrarse_adm(request):
+    return render(request,'registrarse_adm.html')
+
+def registrarse_adm_done(request):
+    if request.method == 'POST':
+        correo = request.POST.get('correo')
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        telefono = request.POST.get('telefono')
+        rol = request.POST.get('rol')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        
+        data = {
+            'correo':correo,
+            'nombre':nombre,
+            'apellido':apellido,
+            'telefono':telefono,
+        }
+        if correo:
+            try:
+                Administrador.objects.get(correo = correo)
+                data.update({'error_email':'El correo ingresado ya esta registrado'})
+                return render(request,'registrarse_adm.html', data)
+            except:
+                pass
+        else:
+            data.update({'error_email':'El correo no puede quedar vacio'})
+            return render(request,'registrarse_adm.html', data)
+        if not nombre:
+            data.update({'error_nombre':'El nombre no puede quedar vacio'})
+            return render(request,'registrarse_adm.html', data)
+        if not apellido:
+            data.update({'error_apellido':'El apellido no puede quedar vacio'})
+            return render(request,'registrarse_adm.html', data)
+        if not telefono:
+            data.update({'error_telefono':'El telefono no puede quedar vacio'})
+            return render(request,'registrarse_adm.html', data)
+        else:
+            try:
+                telefono = int(telefono)
+                if len(str(telefono)) != 9:
+                    data.update({'error_telefono':'El telefono tiene que tener 9 digitos'})
+                    return render(request,'registrarse_adm.html', data)
+            except:
+                data.update({'error_telefono':'El telefono ingresado no es valido, solo puede ingresar numeros'})
+                return render(request,'registrarse_adm.html', data)
+        if not rol:
+            data.update({'error_rol':'Debe seleccionar un rol para el usuario'})
+            return render(request,'registrarse_adm.html', data)
+        if not password:
+            data.update({'error_password':'Debe ingresar una contraseña'})
+            return render(request,'registrarse_adm.html', data)
+        else:
+            if not password2:
+                data.update({'error_password':'Debe ingresar repetir contraseña'})
+                return render(request,'registrarse_adm.html', data)
+            else:
+                if password != password2:
+                    data.update({'error_password':'Las contraseñas no coinciden'})
+                    return render(request,'registrarse_adm.html', data)
+        administrador = Administrador(
+            username = correo,
+            correo = correo,
+            nombre = nombre,
+            apellido = apellido,
+            telefono = telefono,
+            rol = rol,
+        )
+        administrador.set_password(password)
+        administrador.save()
+        login(request,administrador)
+    return redirect('menu_adm')
+
+
+
+@login_required
+def menu_adm(request):
+    return render(request, 'menu_adm.html')
+
+@login_required
+def reporte(request):
+    if request.method == 'POST':
+        reporte = request.POST.get('reporte')
+        if reporte:
+            reporte = Reporte(
+                reporte = reporte,
+                administrador = Administrador.objects.get(username=request.user)
+            )
+            reporte.save()
+            return redirect('menu_adm')
+        else:
+            return render(request, 'reporte.html', {'error':'El campo no puede quedar vacio, debe ingresar un reporte.'})
+    else:
+        return render(request, 'reporte.html')
+
+def reporte_done(request):
+    return redirect('menu_adm')
+
+
+@login_required
+def modificar_habitacion_adm(request):
+    habitaciones = Habitacion.objects.all()
+    data={'lista_habitaciones':habitaciones}
+    return render(request, 'modificar_habitacion_adm.html', data)
+
+def modificar_habitacion_adm_done(request):
+    if request.method == 'POST':
+        habitacion_id = request.POST.get('habitacion_id')
+        precio = request.POST.get('precio')
+        if not precio:
+            return redirect('modificar_habitacion_adm')
+        else:
+            precio = int(precio)
+            habitacion_id = int(habitacion_id)
+            habitacion = Habitacion.objects.get(habitacion_id=habitacion_id)
+            habitacion.precio=precio
+            habitacion.save()
+            return redirect('modificar_habitacion_adm')
+
+
+
+
 
 
 @login_required

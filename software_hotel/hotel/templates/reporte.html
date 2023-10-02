@@ -1,0 +1,42 @@
+{% extends "core_adm.html" %}
+{% load static %}
+{% block title %}Reporte{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger text-center">
+    {{ error }}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card mt-3">
+                <div class="card-header text-center">
+                    <h1>Reporte</h1>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <textarea name="reporte" id="reporte" cols="30" rows="10" placeholder="Escriba aqui su reporte..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary my-1" type='submit'>Enviar reporte</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock content %}
