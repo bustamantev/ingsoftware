@@ -1,0 +1,33 @@
+{% extends "administracion/core_adm.html" %}
+{% load static %}
+{% block title %}Detalle reporte{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
+{% block content %}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <div class="card mt-3">
+            <div class="card-header text-center">
+                <h1>Reporte: {{ reporte_id }}</h1>
+            </div>
+            <div class="card-body text-center">
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-9">
+                        <p>Usuario: {{ administrador.nombre }} {{ administrador.apellido }}</p>
+                        <p>Correo:  {{ administrador.correo }}</p>
+                        <p>Reporte:</p>
+                        <p>{{ reporte }}</p>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'listar_reportes'%}">Volver</a>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock content %}

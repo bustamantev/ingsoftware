@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from hotel.views import inicio, busqueda, resultados, catalogo, detalle, metodo_pago, realizado, inicio_sesion_adm, registrarse_adm, registrarse_adm_done, inicio_sesion_adm_done, cerrar_sesion_adm, menu_adm, reporte, reporte_done, modificar_habitacion_adm, modificar_habitacion_adm_done
+from hotel.views import inicio, busqueda, resultados, catalogo, detalle, metodo_pago, realizado, inicio_sesion_adm, registrarse_adm, registrarse_adm_done, inicio_sesion_adm_done, cerrar_sesion_adm, menu_adm, reporte, reporte_done, modificar_habitacion_adm, modificar_habitacion_adm_done, listar_reportes, ver_reporte, lista_reserva, editar_reserva
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,5 +37,9 @@ urlpatterns = [
     path('modificar_habitacion_adm/', modificar_habitacion_adm, name="modificar_habitacion_adm"),
     path('modificar_habitacion_adm_done/', modificar_habitacion_adm_done, name="modificar_habitacion_adm_done"),
     path('cerrar_sesion_adm/', cerrar_sesion_adm, name="cerrar_sesion_adm"),
+    path('listar_reportes/', listar_reportes, name="listar_reportes"),
+    path('ver_reporte/', ver_reporte, name="ver_reporte"),
+    path('lista_reserva/', lista_reserva, name="lista_reserva"),
+    path('editar_reserva/', editar_reserva, name="editar_reserva"),
 
 ]

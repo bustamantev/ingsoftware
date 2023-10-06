@@ -178,7 +178,7 @@ def catalogo(request):
 
 
 def inicio_sesion_adm(request):
-    return render(request,'inicio_sesion_adm.html')
+    return render(request,'administracion/inicio_sesion_adm.html')
 
 def inicio_sesion_adm_done(request):
     if request.method == 'POST':
@@ -190,7 +190,7 @@ def inicio_sesion_adm_done(request):
             login(request, user)
         else:
             data.update({'error':'Usuario y/o contraseña invalidos.'})
-            return render(request, 'inicio_sesion_adm.html', data)
+            return render(request, 'administracion/inicio_sesion_adm.html', data)
         return redirect('menu_adm')
 
 @login_required
@@ -199,7 +199,7 @@ def cerrar_sesion_adm(request):
     return redirect('inicio_sesion_adm')
 
 def registrarse_adm(request):
-    return render(request,'registrarse_adm.html')
+    return render(request,'administracion/registrarse_adm.html')
 
 def registrarse_adm_done(request):
     if request.method == 'POST':
@@ -221,44 +221,44 @@ def registrarse_adm_done(request):
             try:
                 Administrador.objects.get(correo = correo)
                 data.update({'error_email':'El correo ingresado ya esta registrado'})
-                return render(request,'registrarse_adm.html', data)
+                return render(request,'administracion/registrarse_adm.html', data)
             except:
                 pass
         else:
             data.update({'error_email':'El correo no puede quedar vacio'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         if not nombre:
             data.update({'error_nombre':'El nombre no puede quedar vacio'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         if not apellido:
             data.update({'error_apellido':'El apellido no puede quedar vacio'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         if not telefono:
             data.update({'error_telefono':'El telefono no puede quedar vacio'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         else:
             try:
                 telefono = int(telefono)
                 if len(str(telefono)) != 9:
                     data.update({'error_telefono':'El telefono tiene que tener 9 digitos'})
-                    return render(request,'registrarse_adm.html', data)
+                    return render(request,'administracion/registrarse_adm.html', data)
             except:
                 data.update({'error_telefono':'El telefono ingresado no es valido, solo puede ingresar numeros'})
-                return render(request,'registrarse_adm.html', data)
+                return render(request,'administracion/registrarse_adm.html', data)
         if not rol:
             data.update({'error_rol':'Debe seleccionar un rol para el usuario'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         if not password:
             data.update({'error_password':'Debe ingresar una contraseña'})
-            return render(request,'registrarse_adm.html', data)
+            return render(request,'administracion/registrarse_adm.html', data)
         else:
             if not password2:
                 data.update({'error_password':'Debe ingresar repetir contraseña'})
-                return render(request,'registrarse_adm.html', data)
+                return render(request,'administracion/registrarse_adm.html', data)
             else:
                 if password != password2:
                     data.update({'error_password':'Las contraseñas no coinciden'})
-                    return render(request,'registrarse_adm.html', data)
+                    return render(request,'administracion/registrarse_adm.html', data)
         administrador = Administrador(
             username = correo,
             correo = correo,
@@ -276,7 +276,7 @@ def registrarse_adm_done(request):
 
 @login_required
 def menu_adm(request):
-    return render(request, 'menu_adm.html')
+    return render(request, 'administracion/menu_adm.html')
 
 @login_required
 def reporte(request):
@@ -290,9 +290,9 @@ def reporte(request):
             reporte.save()
             return redirect('menu_adm')
         else:
-            return render(request, 'reporte.html', {'error':'El campo no puede quedar vacio, debe ingresar un reporte.'})
+            return render(request, 'administracion/reporte.html', {'error':'El campo no puede quedar vacio, debe ingresar un reporte.'})
     else:
-        return render(request, 'reporte.html')
+        return render(request, 'administracion/reporte.html')
 
 def reporte_done(request):
     return redirect('menu_adm')
@@ -302,7 +302,7 @@ def reporte_done(request):
 def modificar_habitacion_adm(request):
     habitaciones = Habitacion.objects.all()
     data={'lista_habitaciones':habitaciones}
-    return render(request, 'modificar_habitacion_adm.html', data)
+    return render(request, 'administracion/modificar_habitacion_adm.html', data)
 
 def modificar_habitacion_adm_done(request):
     if request.method == 'POST':
@@ -318,27 +318,60 @@ def modificar_habitacion_adm_done(request):
             habitacion.save()
             return redirect('modificar_habitacion_adm')
 
+@login_required
+def listar_reportes(request):
+    reportes = Reporte.objects.all()
+    data = {'reportes':reportes}
+    return render(request,'administracion/listar_reportes.html', data)
 
+@login_required
+def ver_reporte(request):
+    if request.method == 'POST':
+        reporte_id = request.POST.get('reporte_id')
+        reporte = Reporte.objects.get(reporte_id = reporte_id)
+        data = {'reporte_id': reporte.reporte_id,
+                'reporte': reporte.reporte,
+                'administrador':reporte.administrador}
+        return render(request, 'administracion/ver_reporte.html', data)
 
+@login_required
+def lista_reserva(request):
+    reservas = Reserva.objects.all()
+    data = {'reservas': reservas}
+    return render(request, 'administracion/lista_reserva.html', data)
 
+@login_required
+def editar_reserva(request):
+    if request.method == 'POST':
+        reserva_id = request.POST.get('reserva_id')
+        reserva = Reserva.objects.get(reserva_id = reserva_id)
+        fecha_entrada = datetime.strftime(reserva.fecha_entrada, "%Y-%m-%d")
+        fecha_salida = datetime.strftime(reserva.fecha_salida, "%Y-%m-%d")
+        habitaciones = Habitacion.objects.all()
+        clientes = Cliente.objects.all()
+        data = {'reserva': reserva,
+                'fecha_entrada':fecha_entrada,
+                'fecha_salida':fecha_salida,
+                'habitaciones':habitaciones,
+                'clientes':clientes}
+    return render(request, 'administracion/editar_reserva.html', data)
+
+def editar_reserva_done(request):
+    pass
 
 
 @login_required
 @cliente_required
 def vista_perfil_cliente(request):
-    # Lógica para que los clientes reserven habitaciones
     pass
-
 
 @login_required
 @administrador_required('TI')
 def vista_administrador_admin(request):
-    # Lógica para la vista de administrador con rol 'admin'
     pass
 
 
 @login_required
 @administrador_required('Administrador de hotel')
 def vista_administrador_supervisor(request):
-    # Lógica para la vista de administrador con rol 'supervisor'
     pass

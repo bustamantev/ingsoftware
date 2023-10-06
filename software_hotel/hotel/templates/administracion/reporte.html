@@ -1,6 +1,6 @@
-{% extends "core_adm.html" %}
+{% extends "administracion/core_adm.html" %}
 {% load static %}
-{% block title %}Inicio Sesion Administracion{% endblock title %}
+{% block title %}Reporte{% endblock title %}
 {% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
 {% block content %}
 
@@ -13,21 +13,18 @@
 <div class="row">
     <div class="col"></div>
     <div class="col-4">
-        <form action="{% url 'inicio_sesion_adm_done' %}" method="post">
+        <form method="post">
             {% csrf_token %}
             <div class="card mt-3">
                 <div class="card-header text-center">
-                    <h1>Iniciar sesion</h1>
+                    <h1>Reporte</h1>
                 </div>
                 <div class="card-body text-center">
                     <div class="row">
                         <div class="col"></div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo electronico" value="{{ correo }}">
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+                                <textarea name="reporte" id="reporte" cols="30" rows="10" placeholder="Escriba aqui su reporte..."></textarea>
                             </div>
                         </div>
                         <div class="col"></div>
@@ -35,7 +32,7 @@
                     
                 </div>
                 <div class="card-footer text-center">
-                    <button class="btn btn-primary my-1" type='submit'>Iniciar sesion</button>
+                    <button class="btn btn-primary my-1" type='submit'>Enviar reporte</button>
                 </div>
             </div>
         </form>

@@ -1,0 +1,57 @@
+{% extends "administracion/core_adm.html" %}
+{% load static %}
+{% block title %}Lista de reportes{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
+{% block content %}
+<!--
+{% if error %}
+<div class="alert alert-danger text-center">
+    {{ error }}
+</div>
+{% endif %}
+-->
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <div class="card mt-3">
+            <div class="card-header text-center">
+                <h1>Lista de Reportes</h1>
+            </div>
+            <div class="card-body text-center">
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-9">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="px-3">Numero de Reporte</th>
+                                    <th class="px-3">Usuario</th>
+                                    <th class="px-5">-------------</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reporte in reportes %}
+                                <form action="{% url 'ver_reporte'%}" method="post">
+                                    {% csrf_token %}
+                                    <tr>
+                                        <td>{{ reporte.reporte_id }}</td>
+                                        <td>{{ reporte.administrador.correo }}</td>
+                                        <input type="hidden" name="reporte_id" value="{{ reporte.reporte_id }}">
+                                        <td><button class="btn-sm btn-primary" type='submit'>Seleccionar</button></td>
+                                    </tr>
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'menu_adm' %}">Volver</a>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock content %}

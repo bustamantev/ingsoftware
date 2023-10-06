@@ -1,11 +1,9 @@
-{% extends "core_adm.html" %}
+{% extends "administracion/core_adm.html" %}
 {% load static %}
 {% block title %}
     Menu Administracion
 {% endblock title %}
-{% block link %}
-    <link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />
-{% endblock link %}
+{% block link %} {% endblock link %}
 {% block content %}
     {% if error %}<div class="alert alert-danger text-center">{{ error }}</div>{% endif %}
     <div class="row">
@@ -23,7 +21,13 @@
                                 <a href="{% url 'reporte' %}">Generar Reporte</a>
                             </div>
                             <div class="mb-3">
+                                <a href="{% url 'listar_reportes' %}">Lista de reportes</a>
+                            </div>
+                            <div class="mb-3">
                                 <a href="{% url 'modificar_habitacion_adm' %}">Modificar precio de habitacion</a>
+                            </div>
+                            <div class="mb-3">
+                                <a href="{% url 'lista_reserva' %}">Modificar Reserva</a>
                             </div>
                         </div>
                         <div class="col"></div>
