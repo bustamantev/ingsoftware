@@ -9,46 +9,46 @@
     <div class="col-6">
         <div class="card">
             <div class="card-header text-center">
-                <h1>{{ habitacion.tipo_habitacion}}</h1>
-                <h3>Habitacion: {{ habitacion.numero_habitacion}}</h3>
-                <p>{{habitacion.metros_cuadrados}}m²</p>
+                <h1>{{ habitacion.tipo_habitacion }}</h1>
+                <h3>Habitacion: {{ habitacion.numero_habitacion }}</h3>
+                <p>{{ habitacion.metros_cuadrados }}m²</p>
                 <br>
-                <h5>Entrada: {{fecha_entrada}}</h5>
-                <h5>Salida: {{fecha_salida}}</h5>
-                <h5>Huespedes: {{numero_huespedes}}</h5>
+                <h5>Entrada: {{ fecha_entrada }}</h5>
+                <h5>Salida: {{ fecha_salida }}</h5>
+                <h5>Huespedes: {{ numero_huespedes }}</h5>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <h3>Servicios:</h3>
-                        {% for servicio in servicios%}
-                        <p>{{servicio.descripcion}}</p>
+                        {% for servicio in servicios %}
+                        <p>{{ servicio.descripcion }}</p>
                         {% endfor %}
                     </div>
                     <div class="col">
                         <h3>Equipos:</h3>
-                        {% for equipo in equipos%}
-                        <p>{{equipo.descripcion}}</p>
+                        {% for equipo in equipos %}
+                        <p>{{ equipo.descripcion }}</p>
                         {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <h4>{{habitacion.hotel}}</h4>
-                <h5>{{habitacion.hotel.direccion}}</h5>
+                <h4>{{ habitacion.hotel }}</h4>
+                <h5>{{ habitacion.hotel.direccion }}</h5>
             </div>
             <div class="card-footer">
-                <h5>Valor/noche (USD) ${{habitacion.precio}}</h5>
-                <h5>Cantidad de noches total: {{dias_hospedaje}} noche(s)</h5>
-                <h5>Valor total (USD) ${{precio_final}}</h5>
+                <h5>Valor/noche (USD) ${{ habitacion.precio }}</h5>
+                <h5>Cantidad de noches total: {{ dias_hospedaje }} noche(s)</h5>
+                <h5>Valor total (USD) ${{ precio_final }}</h5>
                 <br>
-                <form action="{% url 'metodo_pago' %}" method="post">
+                <form action="{% url 'datos_cliente' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="habitacion_id" id="habitacion_id" value="{{habitacion.habitacion_id}}">
-                    <input type="hidden" name="fecha_entrada" id="fecha_entrada" value="{{fecha_entrada}}">
-                    <input type="hidden" name="fecha_salida" id="fecha_salida" value="{{fecha_salida}}">
-                    <input type="hidden" name="numero_huespedes" id="numero_huespedes" value="{{numero_huespedes}}">
-                    <input type="hidden" name="precio_final" id="precio_final" value="{{precio_final}}">
+                    <input type="hidden" name="habitacion_id" id="habitacion_id" value="{{ habitacion.habitacion_id }}">
+                    <input type="hidden" name="fecha_entrada" id="fecha_entrada" value="{{ fecha_entrada }}">
+                    <input type="hidden" name="fecha_salida" id="fecha_salida" value="{{ fecha_salida }}">
+                    <input type="hidden" name="numero_huespedes" id="numero_huespedes" value="{{ numero_huespedes }}">
+                    <input type="hidden" name="precio_final" id="precio_final" value="{{ precio_final }}">
                     <button type="submit" class="btn btn-primary">Siguiente</button>
                 </form>
             </div>

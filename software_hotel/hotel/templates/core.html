@@ -34,14 +34,20 @@
                     <li><a class="dropdown-item" href="#">Coming Soon</a></li>
                 </ul>
             </li>
+            {% if not user.is_authenticated %}
             <li id="iniciar-session" class="nav-item">
-                <a class="nav-link" href="#">Iniciar Session</a>
+                <a class="nav-link" href="{% url 'iniciar_sesion_cli' %}">Iniciar Session</a>
             </li>
             <li id="registrarse" class="nav-item">
-                <a class="nav-link" href="#">Registrarse</a>
+                <a class="nav-link" href="{% url 'registro_cli' %}">Registrarse</a>
             </li>
+            {% else %}
+            <li id="cerrar_sesion_cli" class="nav-item">
+                <a class="nav-link" href="{% url 'cerrar_sesion_cli' %}">Cerrar Session</a>
+            </li>
+            {% endif %}
             <li id="reservar" class="nav-item">
-                <a class="nav-link" href="{% url 'busqueda'%}">Reservar</a>
+                <a class="nav-link" href="{% url 'busqueda' %}">Reservar</a>
             </li>
         </ul>
     </nav>

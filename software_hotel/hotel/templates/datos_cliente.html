@@ -1,0 +1,61 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Datos de cliente{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/registrarse_adm.css' %}" />{% endblock link %}
+{% block content %}
+
+{% if error_correo or error_nombre or error_apellido or error_telefono %}
+<div class="alert alert-danger text-center">
+    <p>{{ error_correo }}</p>
+    <p>{{ error_nombre }}</p>
+    <p>{{ error_apellido }}</p>
+    <p>{{ error_telefono }}</p>
+
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <form action="{% url 'datos_cliente_done' %}" method="post">
+            {% csrf_token %}
+            <div class="card mt-3">
+                <div class="card-header text-center">
+                    <h1>Datos de cliente</h1>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo electronico" value="{{ correo }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" value="{{ nombre }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Apellido" value="{{ apellido }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Telefono" value="{{ telefono }}">
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <input type="hidden" name="habitacion_id" id="habitacion_id" value="{{ habitacion_id }}">
+                    <input type="hidden" name="fecha_entrada" id="fecha_entrada" value="{{ fecha_entrada }}">
+                    <input type="hidden" name="fecha_salida" id="fecha_salida" value="{{ fecha_salida }}">
+                    <input type="hidden" name="numero_huespedes" id="numero_huespedes" value="{{ numero_huespedes }}">
+                    <input type="hidden" name="precio_final" id="precio_final" value="{{ precio_final }}">
+                    <button class="btn btn-primary my-1" type='submit'>Pagar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+
+{% endblock content %}
