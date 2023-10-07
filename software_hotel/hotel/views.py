@@ -477,7 +477,6 @@ def registrarse_adm_done(request):
         )
         administrador.set_password(password)
         administrador.save()
-        login(request,administrador)
     return redirect('menu_adm')
 
 
@@ -612,3 +611,76 @@ def ver_reserva_equipo(request):
                 'servicios':servicios,
                 'equipos':equipos}
         return render(request, 'administracion/ver_reserva_equipo.html', data)
+
+
+def listar_usuarios(request):
+    clientes = Cliente.objects.all()
+    data={'clientes':clientes}
+    return render(request, 'administracion/listar_usuarios.html', data)
+
+def editar_usuario(request):
+    correo = request.POST.get('correo')
+    cliente = Cliente.objects.get(correo=correo)
+    nombre = cliente.nombre
+    apellido = cliente.apellido
+    telefono = cliente.telefono
+    vip = cliente.vip
+    data = {'correo':correo,
+            'nombre':nombre,
+            'apellido':apellido,
+            'telefono':telefono,
+            'vip':vip,}
+    return render(request, 'administracion/editar_usuario.html', data)
+
+def editar_usuario_done(request):
+    correo = request.POST.get('correo')
+    nombre = request.POST.get('nombre')
+    apellido = request.POST.get('apellido')
+    telefono = request.POST.get('telefono')
+    vip = request.POST.get('vip')
+    correo_check = request.POST.get('correo_check')
+    data = {'correo':correo,
+            'nombre':nombre,
+            'apellido':apellido,
+            'telefono':telefono,
+            'rol':vip,
+            'correo_check':correo_check}
+    flag = True
+    if not correo:
+        data.update({'error_correo':'El campo correo no puede quedar vacio'})
+    else:
+        try:
+            cliente = Cliente.objects.get(correo=correo)
+            if correo != correo_check:
+                data.update({'error_correo':'El correo ingresado ya se encuentra registrado'})
+                flag = False
+        except:
+            pass
+    if not nombre:
+        data.update({'erro_nombre':'El campo nombre no puede quedar vacio'})
+        flag = False
+    if not apellido:
+        data.update({'error_apellido':'El campo apellido no puede quedar vacio'})
+        flag = False
+    if not telefono:
+        data.update({'error_telefono':'El campo telefono no puede quedar vacio'})
+        flag = False
+    else:
+        if len(telefono) != 9 or not telefono.isdigit():
+            data.update({'error_telefono':'El telefono debe contener 9 digitos y solamente numeros'})
+            flag = False
+    if vip == False or vip == "False":
+        vip = False
+    else:
+        vip = True
+    if not flag:
+        return render(request, 'administracion/editar_usuario.html', data)
+    else:
+        cliente.correo = correo
+        cliente.nombre = nombre
+        cliente.apellido = apellido
+        cliente.telefono = int(telefono)
+        cliente.vip = vip
+        cliente.save()
+        return redirect('listar_usuarios')
+

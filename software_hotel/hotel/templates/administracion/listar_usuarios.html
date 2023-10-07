@@ -1,0 +1,48 @@
+{% extends "administracion/core_adm.html" %}
+{% load static %}
+{% block title %}Lista de usuarios{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
+{% block content %}
+
+<div class="card mt-4 mx-5">
+    <div class="card-header text-center">
+        <h1>Lista de Usuarios</h1>
+    </div>
+    <div class="card-body text-center">
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="px-3">CORREO</th>
+                        <th class="px-3">NOMBRE</th>
+                        <th class="px-5">APELLIDO</th>
+                        <th class="px-5">TELEFONO</th>
+                        <th class="px-5">VIP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <form action="{% url 'editar_usuario' %}" method="post">
+                        {% csrf_token %}
+                        <tr>
+                            <td>{{ cliente.correo }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td>{{ cliente.apellido }}</td>
+                            <td>{{ cliente.telefono }}</td>
+                            <td>{{ cliente.vip }}</td>
+                            <input type="hidden" name="correo" id="correo" value={{ cliente.correo }}>
+                            <td>
+                                <button class="btn-sm btn-primary" type='submit'>Editar</button>
+                            </td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-center">
+        <a href="{% url 'menu_adm' %}">Volver</a>
+    </div>
+</div>
+{% endblock content %}

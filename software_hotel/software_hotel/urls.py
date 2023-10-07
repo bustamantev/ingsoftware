@@ -26,7 +26,9 @@ from hotel.views import (inicio, busqueda, resultados,
                         editar_reserva_done, eliminar_reserva_done, listar_reserva_equipos,
                         ver_reserva_equipo, registro_cli, registro_cli_done,
                         iniciar_sesion_cli, iniciar_sesion_cli_done, cerrar_sesion_cli,
-                        datos_cliente, datos_cliente_done)
+                        datos_cliente, datos_cliente_done,
+                        editar_usuario, listar_usuarios,
+                        editar_usuario_done)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -62,5 +64,8 @@ urlpatterns = [
     path('cerrar_sesion_cli/', cerrar_sesion_cli, name="cerrar_sesion_cli"),
     path('datos_cliente/', datos_cliente, name="datos_cliente"),
     path('datos_cliente_done/', datos_cliente_done, name="datos_cliente_done"),
+    path('listar_usuarios/', listar_usuarios, name="listar_usuarios"),
+    path('editar_usuario/', editar_usuario, name="editar_usuario"),
+    path('editar_usuario_done/', editar_usuario_done, name="editar_usuario_done"),
 
 ]
