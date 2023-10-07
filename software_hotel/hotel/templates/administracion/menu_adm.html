@@ -20,15 +20,24 @@
                             <div class="mb-3">
                                 <a href="{% url 'reporte' %}">Generar Reporte</a>
                             </div>
+                            {% if user.administrador.rol == 'Administrador de hotel' or user.administrador.rol == 'TI' %}
                             <div class="mb-3">
                                 <a href="{% url 'listar_reportes' %}">Lista de reportes</a>
                             </div>
                             <div class="mb-3">
-                                <a href="{% url 'modificar_habitacion_adm' %}">Modificar precio de habitacion</a>
-                            </div>
-                            <div class="mb-3">
                                 <a href="{% url 'lista_reserva' %}">Modificar Reserva</a>
                             </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Administrador de reserva' or user.administrador.rol == 'TI' %}
+                            <div class="mb-3">
+                                <a href="{% url 'modificar_habitacion_adm' %}">Modificar precio de habitacion</a>
+                            </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Empleado' or user.administrador.rol == 'TI' %}
+                            <div class="mb-3">
+                                <a href="{% url 'listar_reserva_equipos' %}">Ver equipos y servicios</a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="col"></div>
                     </div>
