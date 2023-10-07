@@ -7,7 +7,6 @@ from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion
 from datetime import timedelta, datetime
 from django.contrib.auth import login, logout, authenticate
 
-
 def rol_requerido(rol_permiso):
     def decorator(view_func):
         @wraps(view_func)
@@ -20,15 +19,11 @@ def rol_requerido(rol_permiso):
         return _wrapped_view
     return decorator
 
-
-
 def inicio(request):
     return render(request, "inicio.html")
 
-
 def busqueda(request):
     return render(request, "busqueda.html")
-
 
 def resultados(request):
     fecha_actual = datetime.now().date()
@@ -84,7 +79,6 @@ def resultados(request):
                 'numero_huespedes': numero_huespedes}
         return render(request, "resultados.html", data)
 
-
 def detalle(request):
     habitacion_id = request.POST.get("habitacion")
     fecha_entrada = request.POST.get("fecha_entrada")
@@ -126,7 +120,6 @@ def datos_cliente(request):
         return render(request, 'metodo_pago.html', data)
     else:
         return render(request,'datos_cliente.html', data)
-
 
 def datos_cliente_done(request):
     if request.method == 'POST':
@@ -187,8 +180,6 @@ def datos_cliente_done(request):
             return render(request, 'metodo_pago.html', data)
 
 
-
-
 def metodo_pago(request):
     habitacion_id = request.POST.get("habitacion_id")
     fecha_entrada = request.POST.get("fecha_entrada")
@@ -211,7 +202,6 @@ def metodo_pago(request):
         'apellido':apellido,
         'telefono':telefono}
     return render(request, "metodo_pago.html",data)
-
 
 
 def realizado(request):
@@ -390,11 +380,9 @@ def iniciar_sesion_cli_done(request):
                     'error': 'Correo y/o contraseña invalidos'}
             return render(request, 'iniciar_sesion_cli.html', data)
 
-
 def cerrar_sesion_cli(request):
     logout(request)
     return redirect('inicio')
-
 
 #ADMINISTRACION
 def inicio_sesion_adm(request):
@@ -491,7 +479,6 @@ def registrarse_adm_done(request):
         administrador.save()
         login(request,administrador)
     return redirect('menu_adm')
-
 
 
 @login_required
@@ -625,4 +612,3 @@ def ver_reserva_equipo(request):
                 'servicios':servicios,
                 'equipos':equipos}
         return render(request, 'administracion/ver_reserva_equipo.html', data)
-    pass
