@@ -1,21 +1,25 @@
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.http import Http404
+from functools import wraps
+from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from .models import Cliente, Administrador, Habitacion, Reserva, Tipo_habitacion, Metodo_pago, Reporte
 from datetime import timedelta, datetime
 from django.contrib.auth import login, logout, authenticate
 
 
-def administrador_required(role):
+def rol_requerido(rol_permiso):
     def decorator(view_func):
+        @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if request.user.is_authenticated and isinstance(request.user, Administrador) and request.user.role == role:
-                return view_func(request, *args, **kwargs)
-            else:
-                raise Http404("Página no encontrada")
+            if request.user.is_authenticated and hasattr(request.user, 'administrador'):
+                administrador = request.user.administrador
+                if administrador.rol == rol_permiso:
+                    return view_func(request, *args, **kwargs)
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
         return _wrapped_view
     return decorator
+
 
 
 def inicio(request):
@@ -300,9 +304,10 @@ def registro_cli_done(request):
         else:
             try:
                 cliente = Cliente.objects.get(correo = correo)
-                #validar si el cliente es anonimo
-                data.update({'error_correo':'El correo ya se encuentra registrado'})
-                flag = False
+                use = authenticate(request,username=cliente.username, password='')
+                if use is None:
+                    data.update({'error_correo':'El correo ya se encuentra registrado'})
+                    flag = False
             except:
                 pass
             try:
@@ -340,12 +345,30 @@ def registro_cli_done(request):
         if not flag:
             return render(request, 'registro_cli.html', data)
         else:
-            cliente = Cliente(username = correo,
-                            correo = correo,
-                            nombre = nombre,
-                            apellido = apellido,
-                            telefono = telefono,
-                            vip = vip)
+            try:
+                cliente = Cliente.objects.get(correo = correo)
+                use = authenticate(request,username=cliente.username, password='')
+                if use is None:
+                    cliente = Cliente(username = correo,
+                                    correo = correo,
+                                    nombre = nombre,
+                                    apellido = apellido,
+                                    telefono = telefono,
+                                    vip = vip)
+                else:
+                    cliente.username = correo
+                    cliente.correo = correo
+                    cliente.nombre = nombre
+                    cliente.apellido = apellido
+                    cliente.telefono = telefono
+                    cliente.vip = vip
+            except:
+                cliente = Cliente(username = correo,
+                    correo = correo,
+                    nombre = nombre,
+                    apellido = apellido,
+                    telefono = telefono,
+                    vip = vip)
             cliente.set_password(password)
             cliente.save()
             login(request, cliente)
@@ -602,24 +625,4 @@ def ver_reserva_equipo(request):
                 'servicios':servicios,
                 'equipos':equipos}
         return render(request, 'administracion/ver_reserva_equipo.html', data)
-    pass
-
-
-
-
-
-@login_required
-@cliente_required
-def vista_perfil_cliente(request):
-    pass
-
-@login_required
-@administrador_required('TI')
-def vista_administrador_admin(request):
-    pass
-
-
-@login_required
-@administrador_required('Administrador de hotel')
-def vista_administrador_supervisor(request):
     pass
