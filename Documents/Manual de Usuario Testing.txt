@@ -1,0 +1,36 @@
+Abrir Visual Studio Code
+Abrir la carpeta donde se encuentra el proyecto . ejemplo C:\Users\Pc Gamer\Desktop\ingsoftware-main
+Una vez dentro de el proyecto abrir la termina de Visual Studio Code
+En la terminal digitar "python manage.py runserver" sin comillas para levantar el servidor
+Ingresar la direccion entregada por la terminal, en este caso http://127.0.0.1:8000/
+
+
+Cliente
+Haz click en catalogo para ver las habitaciones disponibles
+Haz click en reservar para ir a la vista de reservas
+Seleccionar la fecha de entreda para el check in, seleccionar la fecha salida para el check out y seleccionar la cantidad de huespedes y dar click en buscar
+Seleccionar la habitacion acorde a la necesidad segun el rango de opciones entregados, dar click en seleccionar
+Haz click en siguiente para confirmar la habitacion
+Seleccionar el metodo de pago y dar click en pagar
+La reserva fue realizada exitosamente
+
+Personal Hotel/Administrativo
+ingresar la direccion http://127.0.0.1:8000/inicio_sesion_adm/
+En correo electronico ingresar "da@da.da" sin comillas
+En contraseña ingresar "asd123456" sin comillas
+Dar click a iniciar sesion
+
+En menu Administracion
+Seleccionar Generar Reporte
+Ingresar Informacion de Reporte (El reporte no debe estar vacio)
+Click Enviar reporte
+
+En menu Administracion seleccionar Modificar Precio de Habitacion
+En lista de Habitaciones seleccionar una habitacion
+Ingresar el nuevo precio
+Dar click en Actualizar para cambiar el precio
+El precio a sido actualizado
+
+
+
+
