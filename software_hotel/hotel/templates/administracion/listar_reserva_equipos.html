@@ -1,6 +1,6 @@
 {% extends "administracion/core_adm.html" %}
 {% load static %}
-{% block title %}Lista de reportes{% endblock title %}
+{% block title %}Lista de reservas{% endblock title %}
 {% block link %}<link rel="stylesheet" href="{% static 'hotel/css/style_inicio.css' %}" />{% endblock link %}
 {% block content %}
 
@@ -14,29 +14,25 @@
                 <thead>
                     <tr>
                         <th class="px-3">RESERVA ID</th>
+                        <th class="px-3">HABITACION</th>
                         <th class="px-3">FECHA ENTRADA</th>
                         <th class="px-5">FECHA SALIDA</th>
-                        <th class="px-5">CANTIDAD PERSONAS</th>
-                        <th class="px-5">CLIENTE</th>
-                        <th class="px-5">HABITACION</th>
                         <th class="px-5">TIPO HABITACION</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for reserva in reservas %}
-                    <form action="{% url 'editar_reserva' %}" method="post">
+                    <form action="{% url 'ver_reserva_equipo' %}" method="post">
                         {% csrf_token %}
                         <tr>
                             <td>{{ reserva.reserva_id }}</td>
+                            <td>{{ reserva.habitacion.numero_habitacion }}</td>
                             <td>{{ reserva.fecha_entrada }}</td>
                             <td>{{ reserva.fecha_salida }}</td>
-                            <td>{{ reserva.cantidad_personas }}</td>
-                            <td>{{ reserva.cliente.correo }}</td>
-                            <td>{{ reserva.habitacion.numero_habitacion }}</td>
                             <td>{{ reserva.habitacion.tipo_habitacion.nombre }}</td>
                             <input type="hidden" name="reserva_id" id="reserva_id" value={{ reserva.reserva_id }}>
                             <td>
-                                <button class="btn-sm btn-primary" type='submit'>Seleccionar</button>
+                                <button class="btn-sm btn-primary" type='submit'>Ver detalles</button>
                             </td>
                         </tr>
                     </form>

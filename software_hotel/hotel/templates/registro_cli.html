@@ -1,0 +1,68 @@
+{% extends "core.html" %}
+{% load static %}
+{% block title %}Registrarse{% endblock title %}
+{% block link %}<link rel="stylesheet" href="{% static 'hotel/css/registrarse_adm.css' %}" />{% endblock link %}
+{% block content %}
+
+{% if error_correo or error_nombre or error_apellido or error_telefono %}
+<div class="alert alert-danger text-center">
+    <p>{{ error_correo }}</p>
+    <p>{{ error_nombre }}</p>
+    <p>{{ error_apellido }}</p>
+    <p>{{ error_telefono }}</p>
+
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-4">
+        <form action="{% url 'registro_cli_done' %}" method="post">
+            {% csrf_token %}
+            <div class="card mt-3">
+                <div class="card-header text-center">
+                    <h1>Registrarse</h1>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo electronico" value="{{ correo }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" value="{{ nombre }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Apellido" value="{{ apellido }}">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Telefono" value="{{ telefono }}">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <label class="form-check-label" for="vip">VIP</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="vip" name="vip">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" id="password2" name="password2" class="form-control" placeholder="Repita contraseña">
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary my-1" type='submit'>Registrarse</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+
+{% endblock content %}

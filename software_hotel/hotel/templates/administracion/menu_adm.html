@@ -3,7 +3,8 @@
 {% block title %}
     Menu Administracion
 {% endblock title %}
-{% block link %} {% endblock link %}
+{% block link %}
+{% endblock link %}
 {% block content %}
     {% if error %}<div class="alert alert-danger text-center">{{ error }}</div>{% endif %}
     <div class="row">
@@ -20,15 +21,34 @@
                             <div class="mb-3">
                                 <a href="{% url 'reporte' %}">Generar Reporte</a>
                             </div>
-                            <div class="mb-3">
-                                <a href="{% url 'listar_reportes' %}">Lista de reportes</a>
-                            </div>
-                            <div class="mb-3">
-                                <a href="{% url 'modificar_habitacion_adm' %}">Modificar precio de habitacion</a>
-                            </div>
-                            <div class="mb-3">
-                                <a href="{% url 'lista_reserva' %}">Modificar Reserva</a>
-                            </div>
+                            {% if user.administrador.rol == 'Administrador de hotel' or user.administrador.rol == 'TI' %}
+                                <div class="mb-3">
+                                    <a href="{% url 'listar_reportes' %}">Lista de reportes</a>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="{% url 'lista_reserva' %}">Modificar Reserva</a>
+                                </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Administrador de reserva' or user.administrador.rol == 'TI' %}
+                                <div class="mb-3">
+                                    <a href="{% url 'modificar_habitacion_adm' %}">Modificar precio de habitacion</a>
+                                </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Empleado' or user.administrador.rol == 'TI' %}
+                                <div class="mb-3">
+                                    <a href="{% url 'listar_reserva_equipos' %}">Ver equipos y servicios</a>
+                                </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Administrador de reserva' or user.administrador.rol == 'TI' %}
+                                <div class="mb-3">
+                                    <a href="{% url 'listar_usuarios' %}">Editar usuarios clientes</a>
+                                </div>
+                            {% endif %}
+                            {% if user.administrador.rol == 'Administrador de reserva' or user.administrador.rol == 'TI' %}
+                                <div class="mb-3">
+                                    <a href="{% url 'registrarse_adm' %}">Crear usuarios administrativos</a>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="col"></div>
                     </div>

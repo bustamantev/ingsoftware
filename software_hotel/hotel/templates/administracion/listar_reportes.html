@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 {% for reporte in reportes %}
-                                <form action="{% url 'ver_reporte'%}" method="post">
+                                <form action="{% url 'ver_reporte' %}" method="post">
                                     {% csrf_token %}
                                     <tr>
                                         <td>{{ reporte.reporte_id }}</td>
